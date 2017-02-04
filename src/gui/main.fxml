@@ -1,0 +1,43 @@
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXListView?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.MenuItem?>
+<BorderPane fx:controller="gui.MainActivity" xmlns:fx="http://javafx.com/fxml">
+    <top>
+        <MenuBar id="menu">
+            <menus>
+                <Menu text="Program">
+                    <MenuItem id="start" onAction="#startServerProcedure" text="Start" />
+                    <MenuItem id="about" onAction="#showAbout" text="About" />
+                </Menu>
+            </menus>
+        </MenuBar>
+    </top>
+    <left>
+        <JFXListView id="conversations" maxWidth="Infinity" prefWidth="200.0"/>
+    </left>
+    <center>
+        <JFXListView id="conversation" maxHeight="Infinity" maxWidth="Infinity"/>
+    </center>
+    <bottom>
+        <GridPane maxHeight="300" prefHeight="50">
+            <children>
+                <JFXTextArea GridPane.columnIndex="0" promptText="Input message" id="message-text"/>
+                <JFXButton GridPane.columnIndex="1" buttonType="FLAT" style="-fx-background-color: rgb(175,175,175);"
+                           GridPane.halignment="CENTER" id="send-message">
+                    Send
+                </JFXButton>
+            </children>
+            <columnConstraints>
+                <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" percentWidth="80.0" prefWidth="100.0"/>
+                <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" percentWidth="20.0" prefWidth="100.0"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            </rowConstraints>
+        </GridPane>
+    </bottom>
+</BorderPane>
