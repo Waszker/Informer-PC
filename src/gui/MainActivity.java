@@ -219,7 +219,10 @@ public class MainActivity extends Application {
     private void formatFields() {
         messageText.setWrapText(true);
         messageText.setOnKeyPressed(event -> {
-            if (event.getCode().equals(KeyCode.ENTER)) Platform.runLater(() -> sendButton.fire());
+            if (event.getCode().equals(KeyCode.ENTER)) {
+                event.consume();
+                sendButton.fire();
+            }
             else {
                 int newCaretPosition = messageText.getCaretPosition();
                 String text = EmojiParser.parseToUnicode(messageText.getText());
