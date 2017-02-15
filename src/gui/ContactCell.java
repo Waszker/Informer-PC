@@ -1,12 +1,12 @@
 package gui;
 
+import com.jfoenix.controls.JFXListCell;
 import com.sun.org.apache.xml.internal.security.signature.ReferenceNotInitializedException;
 import engine.MainEngine;
 import informer_api.conversation.Person;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -23,7 +23,7 @@ import java.io.ByteArrayInputStream;
  * </p>
  * Created by Piotr Waszkiewicz on 31.01.17.
  */
-class ContactCell extends ListCell<Person> {
+class ContactCell extends JFXListCell<Person> {
     private Person person;
     private HBox contactWithPhoto = new HBox();
     private VBox contactInfo = new VBox();
@@ -37,11 +37,12 @@ class ContactCell extends ListCell<Person> {
         contactWithPhoto.getChildren().addAll(photoImage, contactInfo);
         VBox.setVgrow(contactName, Priority.ALWAYS);
         HBox.setHgrow(pane, Priority.ALWAYS);
-        contactWithPhoto.setOnMouseClicked((MouseEvent e) -> loadConversationWithSelectedPerson());
+        setOnMousePressed((MouseEvent e) -> loadConversationWithSelectedPerson());
+//        setOnMouseClicked((MouseEvent e) -> loadConversationWithSelectedPerson());
     }
 
     @Override
-    protected void updateItem(Person item, boolean empty) {
+    public void updateItem(Person item, boolean empty) {
         super.updateItem(item, empty);
         setText(null);
         if (empty) {
@@ -57,6 +58,7 @@ class ContactCell extends ListCell<Person> {
             if (person.getPhoto() != null) {
                 photoImage.setImage(new Image(new ByteArrayInputStream(person.getPhoto()), 30, 30, true, true));
             } else photoImage.setImage(null);
+            contactWithPhoto.setMouseTransparent(true);
             setGraphic(contactWithPhoto);
         }
     }

@@ -1,12 +1,12 @@
 package gui;
 
+import com.jfoenix.controls.JFXListCell;
 import engine.MainEngine;
 import informer_api.conversation.Message;
 import informer_api.conversation.Person;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -18,7 +18,7 @@ import javafx.scene.text.TextAlignment;
  * </p>
  * Created by Piotr Waszkiewicz on 31.01.17.
  */
-class MessageCell extends ListCell<Message> {
+class MessageCell extends JFXListCell<Message> {
     private Person person;
     private HBox messageTextBox = new HBox();
     private VBox messageInfo = new VBox();
@@ -37,7 +37,7 @@ class MessageCell extends ListCell<Message> {
     }
 
     @Override
-    protected void updateItem(Message item, boolean empty) {
+    public void updateItem(Message item, boolean empty) {
         super.updateItem(item, empty);
         setText(null);
         if (item == null || empty) {
@@ -55,6 +55,7 @@ class MessageCell extends ListCell<Message> {
             messageInfo.setAlignment(item.isSentByOwner() ? Pos.BASELINE_RIGHT : Pos.BASELINE_LEFT);
             messageTextBox.setAlignment(item.isSentByOwner() ? Pos.CENTER_RIGHT : Pos.CENTER_LEFT);
             messageText.setTextAlignment(item.isSentByOwner() ? TextAlignment.RIGHT : TextAlignment.LEFT);
+            messageInfo.setMouseTransparent(true);
             setGraphic(messageInfo);
         }
     }

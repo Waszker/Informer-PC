@@ -9,6 +9,7 @@ import informer_api.conversation.Conversation;
 import informer_api.conversation.Message;
 import informer_api.conversation.Person;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,7 +18,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -217,8 +218,8 @@ public class MainActivity extends Application {
 
     private void formatFields() {
         messageText.setWrapText(true);
-        messageText.setOnKeyTyped(event -> {
-            if (event.getCode() == KeyCode.ENTER) sendButton.fire();
+        messageText.setOnKeyPressed(event -> {
+            if (event.getCode().equals(KeyCode.ENTER)) Platform.runLater(() -> sendButton.fire());
             else {
                 int newCaretPosition = messageText.getCaretPosition();
                 String text = EmojiParser.parseToUnicode(messageText.getText());
@@ -226,14 +227,13 @@ public class MainActivity extends Application {
                 messageText.positionCaret(newCaretPosition);
             }
         });
-        sendButton.setOnMouseClicked((MouseEvent e) -> {
+        sendButton.setOnAction((ActionEvent e) -> {
             if (messageText.getText().length() > 0) {
                 MainEngine.getInstance().sendMessageToPhone(messageText.getText());
                 messageText.clear();
             }
         });
 
-        // TODO: Custom cell view breaks ripple effect...?
         conversations.setItems(people);
         conversations.setCellFactory((ListView<Person> view) -> {
             ContactCell cell = new ContactCell();
